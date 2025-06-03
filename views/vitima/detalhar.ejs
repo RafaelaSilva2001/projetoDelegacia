@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<html data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Vítima</title>
+    <%- include('../partials/cabecalho') %>
+    <%- include('../partials/menu') %>
+    
+</head>
+<body>
+    <div class='container'> 
+        <br>    
+        <h3>Detalhar Vitíma</h3>
+        <br>
+   
+    <% if (vitima != undefined) {%>
+        <div>
+            <b>Nome :</b>
+            <%= vitima.nome %>    
+        </div>
+        <div>
+            <b>CPF:</b>
+            <%= vitima.cpf %>
+        </div>
+        <div>
+            <b>Data de Nascimento :</b>
+            <%= vitima.dataNascimento.toISOString().substring(0,10) %>
+        </div>
+        <div>
+            <b>Filiação :</b>
+            <%= vitima.filiacao %>
+        </div>
+        <div>
+            <b>Endereço :</b>
+            <%= vitima.endereco %>
+        </div>
+        <div>
+            <b>Telefone :</b>
+            <%= vitima.telefone %>
+        </div>
+        <div>
+            <b>Grau de Escolaridade :</b>
+            <%= vitima.grauEscolaridade %>
+        </div>
+       
+        <% } else {  %>
+            
+            <div>Vítima não encontrada</div>
+
+            <%}%>
+     <div>
+            <br>
+            <a href="/vitimas/relatorio">
+            <button class="btn btn-secondary"><i class="bi bi-arrow-return-left"></i>Voltar</button>
+            </a>
+        </div>
+</div>
+    <%- include('../partials/rodape') %>
+</body>
+</html>

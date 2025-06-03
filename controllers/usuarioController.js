@@ -1,0 +1,122 @@
+const Usuario = require("../models/usuario");
+const bcryptjs = require("bcryptjs");
+class UsuarioController {
+
+    static  async listar(req,res){
+    const status = req.query.s;
+    const usuarios  = await Usuario.find();
+    res.render('usuario/relatorio', { status, usuarios });
+    
+    }
+
+    static async cadastrar(req,res){
+    res.render('usuario/cadastrar');
+    }
+
+    static async detalhar(req,res)
+    {
+        const id = req.params.id;
+        try {
+            const usuario = await Usuario.findById(id);
+            res.render('usuario/detalhar', { usuario });
+        } catch (error) {
+            res.status(404).send('Usuario não encontrado');
+        }
+    
+    }
+    static async salvarPost (req,res){
+            const { nome, telefone, email, senha} = req.body;
+            const salt = bcryptjs.genSaltSync();
+            const hash = bcryptjs.hashSync(senha, salt);
+            const novoUsuario = new Usuario({
+                nome,
+                telefone,
+                email,
+                senha: hash
+            });
+            try {
+                await novoUsuario.save();
+                res.redirect('/usuarios/relatorio?s=1');
+            } catch (error) {
+                let errorMessage = 'Erro ao cadastrar usuario.';
+                res.status(400).render('usuario/cadastrar', { errorMessage });
+            }
+        }
+        static async remover (req,res){
+            
+                const id = req.params.id;
+                try {
+                    await Usuario.findByIdAndDelete(id);
+                    res.redirect('/usuarios/relatorio?s=2');
+                } catch (error) {
+                    res.status(500).send('Erro ao deletar usuario');
+                }
+            
+        }
+    
+    static async editar(req,res){
+        const id = req.params.id;
+        try {
+            const usuario = await Usuario.findById(id);
+            if (!usuario) {
+                return res.status(404).send('Usuário não encontrado');
+            }
+            res.render('usuario/editar', { usuario });
+        } catch (error) {
+            res.status(500).send('Erro ao buscar usuário para edição');
+        }
+    }
+
+    static async atualizar(req,res){
+        const id = req.params.id;
+        const { nome, telefone, email, senha } = req.body;
+        try {
+            await Usuario.findByIdAndUpdate(id, {
+                nome,
+                telefone,
+                email,
+                senha
+            });
+            res.redirect('/usuarios/relatorio');
+        } catch (error) {
+            res.status(500).send('Erro ao atualizar usuário');
+        }
+    }
+
+    static loginForm(req, res) {
+        res.render('usuario/login', { errorMessage: null });
+    }
+
+    static async login(req, res) {
+        const { email, senha } = req.body;
+        console.log('Login attempt:', email, senha);
+        try {
+            const usuario = await Usuario.findOne({ email });
+            console.log('Usuario encontrado:', usuario);
+            if (usuario) {
+                
+                if(bcryptjs.compareSync(senha, usuario.senha)){
+                    req.session.usuarioId = usuario._id;
+                    console.log('Login bem-sucedido, sessão criada');
+                    res.redirect('/');
+                } else {
+                    console.log('Senha correta');
+                    return res.status(401).render('usuario/login', { errorMessage: ' senha inválida' });
+                }
+            } else {
+                console.log('E-mail incorreto');
+                return res.status(401).render('usuario/login', { errorMessage: 'Email inválido' });
+            }
+        
+            
+        } catch (error) {
+            console.error('Erro no login:', error);
+            res.status(500).send('Erro no servidor');
+        }
+    }
+    static logout(req,res){
+        req.session.usuarioId = null;
+        res.redirect('/');''
+    }
+}
+module.exports = UsuarioController;

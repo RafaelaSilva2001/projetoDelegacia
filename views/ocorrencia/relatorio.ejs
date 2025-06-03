@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Relatório de Ocorrências</title>
+    <%- include('../partials/cabecalho') %>
+    <%- include('../partials/menu') %>
+</head>
+<body>
+  <div class="container">
+    <br />
+    <h3>Relatório de Ocorrências</h3>
+
+    <% if (status == '1') { %>
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        Cadastrado Com <b>Sucesso!</b>
+      </div>
+    <% } %>
+
+    <table class="table table-striped table-dark table-hover">
+      <thead>
+        <tr>
+          <th>Tipo de Crime</th>
+          <th>Data e Hora</th>
+          <th>Local da Ocorrência</th>
+          <th>Ponto de Referência</th>
+          <th>Policial</th>
+          <th>Vítima</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% ocorrencias.forEach(ocorrencia => { %>
+          <tr>
+            <td><%= ocorrencia.tipoCrime %></td>
+            <td><%= new Date(ocorrencia.dataHora).toLocaleString() %></td>
+            <td><%= ocorrencia.localOcorrencia %></td>
+            <td><%= ocorrencia.pontoReferencia %></td>
+            <td><%= ocorrencia.policial ? ocorrencia.policial.nome : 'N/A' %></td>
+            <td><%= ocorrencia.vitima ? ocorrencia.vitima.nome : 'N/A' %></td>
+            <td>
+              <a href="/ocorrencias/<%= ocorrencia._id %>" class="btn btn-primary btn-sm"data-bs-toggle="tooltip" title="detalhes da ocorrencia">
+                <i class="bi bi-info-circle"></i> 
+              </a>
+              <a href="/ocorrencias/editar/<%= ocorrencia._id %>" class="btn btn-warning btn-sm"data-bs-toggle="tooltip" title="atualizar ocorrencia">
+                <i class="bi bi-pencil"></i> 
+              </a>
+              <form action="/ocorrencias/<%= ocorrencia._id %>/remover" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta ocorrência?');">
+                <button type="submit" class="btn btn-danger btn-sm"data-bs-toggle="tooltip" title="excluir ocorrencia">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <%- include('../partials/rodape') %>
+</body>
+</html>

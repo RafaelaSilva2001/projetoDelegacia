@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<html data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Usuário</title>
+    <%- include('../partials/cabecalho') %>
+    <%- include('../partials/menu') %>
+    
+</head>
+<body>
+
+     <div class='container'> 
+    <br>    
+    <h3>Detalhar Usuário</h3>
+    <br>
+   
+    <% if (usuario != undefined) {%>
+        <div>
+            <b>Nome:</b>
+            <%= usuario.nome %>
+        </div>
+        <div>
+            <b>Telefone :</b>
+            <%= usuario.telefone %>
+        </div>
+        <div>
+            <b>Email :</b>
+            <%= usuario.email %>
+        </div>
+        <% } else {  %>
+            <div>Usuario não encontrado</div>
+            <%}%>
+    <div>
+        <br>
+        <a href="/usuarios/relatorio">
+            <button class="btn btn-secondary"><i class="bi bi-arrow-return-left"></i>Voltar</button>
+        </a>
+    </div>
+</div>
+    <%- include('../partials/rodape') %>
+</body>
+</html>

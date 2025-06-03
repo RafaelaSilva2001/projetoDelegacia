@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Excluir Policial</title>
+</head>
+<body>
+    <h1>Excluir Policial</h1>
+    <p>Tem certeza que deseja excluir o policial <strong><%= policial.nome %></strong> (Matrícula: <%= policial.matricula %>)?</p>
+    <form action="/policiais/remover/<%= policial._id %>" method="POST">
+        <button type="submit">Confirmar Exclusão</button>
+        <a href="/policiais/relatorio">Cancelar</a>
+    </form>
+</body>
+</html>

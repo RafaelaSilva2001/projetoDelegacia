@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" data-bs-theme="dark">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+         
+          <li class="nav-item">
+            <a class="nav-link" data-bs-theme="dark" href="/"><i class="bi bi-house-door-fill"></i> Pagina Inicial</a>
+          </li>
+          <li class="nav-item dropdown" data-bs-theme="dark">
+            <a class="nav-link dropdown-toggle" href="/views/policial" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-people-fill"></i> Policiais
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/policiais/cadastrar"><i class="bi bi-person-plus-fill"></i> Cadastrar</a></li>
+              <li><a class="dropdown-item" href="/policiais/relatorio"><i class="bi bi-file-earmark-text-fill"></i> Relatório</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown" data-bs-theme="dark">
+            <a class="nav-link dropdown-toggle" href="/views/vitima" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-badge-fill"></i> Vítimas
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/vitimas/cadastrar"><i class="bi bi-person-plus-fill"></i> Cadastrar</a></li>
+              <li><a class="dropdown-item" href="/vitimas/relatorio"><i class="bi bi-file-earmark-text-fill"></i> Relatório</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown" data-bs-theme="dark">
+            <a class="nav-link dropdown-toggle" href="/views/ocorrencia" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-journal-text"></i> Ocorrências
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/ocorrencias/cadastrar"><i class="bi bi-person-plus-fill"></i> Cadastrar</a></li>
+              <li><a class="dropdown-item" href="/ocorrencias/relatorio"><i class="bi bi-file-earmark-text-fill"></i> Relatório</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown" data-bs-theme="dark">
+            <a class="nav-link dropdown-toggle" href="/views/usuario/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-journal-text"></i> Usuarios
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/usuarios/cadastrar"><i class="bi bi-person-plus-fill"></i> Cadastrar</a></li>
+              <li><a class="dropdown-item" href="/usuarios/relatorio"><i class="bi bi-file-earmark-text-fill"></i> Relatório</a></li>
+            </ul>
+          </li>
+           
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown ms-auto" data-bs-theme="dark">
+            <a class="nav-link dropdown-toggle" href="/views/usuario/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-gear-fill"></i> Opções
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/usuarios/logout"><i class="bi bi-power"></i> Sair</a></li>
+              
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

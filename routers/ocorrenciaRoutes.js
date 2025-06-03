@@ -1,0 +1,13 @@
+const express = require("express");
+const routes = express.Router();
+const ocorrenciaController = require("../controllers/ocorrenciaController");
+const auth = require("../middlewares/usuarioAuth");
+routes.get('/ocorrencias/',auth,ocorrenciaController.listar);
+routes.get('/ocorrencias/relatorio',auth,ocorrenciaController.listar);
+routes.get('/ocorrencias/cadastrar',auth,ocorrenciaController.cadastrar);
+routes.post('/ocorrencias',auth,ocorrenciaController.salvarOcorrencia);
+routes.get('/ocorrencias/:id',auth,ocorrenciaController.detalhar);
+routes.get('/ocorrencias/editar/:id',auth, ocorrenciaController.editar);
+routes.post('/ocorrencias/atualizar/:id',auth, ocorrenciaController.atualizar);
+routes.post('/ocorrencias/:id/remover',auth,ocorrenciaController.remover);
+module.exports = routes;

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<html data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Policial</title>
+    <%- include('../partials/cabecalho') %>
+    <%- include('../partials/menu') %>
+    
+</head>
+<body>
+
+     <div class='container'> 
+    <br>    
+    <h3>Detalhar Policial</h3>
+    <br>
+   
+    <% if (policial != undefined) {%>
+        <div>
+            <b>Matrícula :</b>
+            <%= policial.matricula %>    
+        </div>
+        <div>
+            <b>Nome:</b>
+            <%= policial.nome %>
+        </div>
+        <div>
+            <b>Telefone :</b>
+            <%= policial.telefone %>
+        </div>
+        <div>
+            <b>Patente :</b>
+            <%= policial.patente %>
+        </div>
+       
+        <% } else {  %>
+            
+            <div>Policial não encontrado</div>
+
+            <%}%>
+    <div>
+        <br>
+        <a href="/policiais/relatorio">
+            <button class="btn btn-secondary"><i class="bi bi-arrow-return-left"></i>Voltar</button>
+        </a>
+    </div>
+</div>
+    <%- include('../partials/rodape') %>
+</body>
+</html>

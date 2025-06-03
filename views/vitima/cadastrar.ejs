@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Vítima</title>
+    <%- include('../partials/cabecalho') %>
+    <%- include('../partials/menu') %>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container">
+        <form id="vitimaForm" action="/vitimas" method="post" novalidate>
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="nome" 
+                    name="nome" 
+                    required 
+                    minlength="3"
+                    placeholder="Digite o nome completo"
+                >
+                <div class="invalid-feedback">
+                    Por favor, insira o nome (mínimo 3 caracteres).
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="cpf" class="form-label">CPF:</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="cpf" 
+                    name="cpf" 
+                    required 
+                    minlength="14" 
+                    maxlength="14"
+                    placeholder="000.000.000-00"
+                    pattern="^\d{3}\.\d{3}\.\d{3}-\d{2}$"
+                >
+                <div class="invalid-feedback">
+                    Por favor, insira um CPF válido no formato 000.000.000-00.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="dataNascimento" class="form-label">Data de Nascimento:</label>
+                <input 
+                    type="date" 
+                    class="form-control" 
+                    id="dataNascimento" 
+                    name="dataNascimento" 
+                    required 
+                    max=""
+                >
+                <div class="invalid-feedback">
+                    Por favor, insira uma data de nascimento válida (não pode ser futura).
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="nomePai" class="form-label">Nome do Pai:</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="nomePai" 
+                    name="nomePai" 
+                    required 
+                    minlength="3"
+                    placeholder="Digite o nome do pai"
+                >
+                <div class="invalid-feedback">
+                    Por favor, insira o nome do pai (mínimo 3 caracteres).
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="nomeMae" class="form-label">Nome da Mãe:</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="nomeMae" 
+                    name="nomeMae" 
+                    required 
+                    minlength="3"
+                    placeholder="Digite o nome da mãe"
+                >
+                <div class="invalid-feedback">
+                    Por favor, insira o nome da mãe (mínimo 3 caracteres).
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="endereco" class="form-label">Endereço:</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="endereco" 
+                    name="endereco" 
+                    required 
+                    minlength="5"
+                    placeholder="Digite o endereço completo"
+                >
+                <div class="invalid-feedback">
+                    Por favor, insira o endereço completo (mínimo 5 caracteres).
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone:</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="telefone" 
+                    name="telefone" 
+                    required 
+                    minlength="14"
+                    maxlength="15"
+                    placeholder="(XX) XXXXX-XXXX"
+                    pattern="^\(\d{2}\) \d{4,5}-\d{4}$"
+                >
+                <div class="invalid-feedback">
+                    Por favor, insira um telefone válido no formato (XX) XXXXX-XXXX.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="grauEscolaridade" class="form-label">Grau de Escolaridade:</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="grauEscolaridade" 
+                    name="grauEscolaridade" 
+                    required 
+                    minlength="3"
+                    placeholder="Digite o grau de escolaridade"
+                >
+                <div class="invalid-feedback">
+                    Por favor, insira o grau de escolaridade (mínimo 3 caracteres).
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success"><i class="bi bi-bookmark-check"></i> Salvar </button>
+            </div>
+        </form>
+        <%- include('../partials/rodape') %>
+    </div>
+
+
+    <script>
+        function maskCPF(value) {
+            value = value.replace(/\D/g, ""); // Remove não dígitos
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            return value;
+        }
+
+        function maskPhone(value) {
+            value = value.replace(/\D/g, "");
+            if (value.length > 10) {
+                value = value.replace(/(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+            } else {
+                value = value.replace(/(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            }
+            return value;
+        }
+
+        function setMaxDate() {
+            const today = new Date().toISOString().split("T")[0];
+            document.getElementById("dataNascimento").setAttribute("max", today);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            setMaxDate();
+
+            var cpfInput = document.getElementById("cpf");
+            if (cpfInput) {
+                cpfInput.addEventListener("input", function (e) {
+                    e.target.value = maskCPF(e.target.value);
+                });
+            }
+
+            var phoneInput = document.getElementById("telefone");
+            if (phoneInput) {
+                phoneInput.addEventListener("input", function (e) {
+                    e.target.value = maskPhone(e.target.value);
+                });
+            }
+
+            // Validação do formulário com Bootstrap
+            var form = document.getElementById('vitimaForm');
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    </script>
+
+   
+</body>
+ 
+</html>
+

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<html data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Ocorrência</title>
+    <%- include('../partials/cabecalho') %>
+    <%- include('../partials/menu') %>
+    
+</head>
+<body>
+     <div class='container'> 
+        <br>    
+        <h3>Detalhar Ocorrência</h3>
+        <br>
+   
+    <% if (ocorrencia != undefined) {%>
+        <div>
+            <b>Tipo de Crime :</b>
+            <%= ocorrencia.tipoCrime %>    
+        </div>
+        <div>
+            <b>Data e Hora:</b>
+            <%= new Date(ocorrencia.dataHora).toLocaleString() %>
+        </div>
+        <div>
+            <b>Local da Ocorrência :</b>
+            <%= ocorrencia.localOcorrencia %>
+        </div>
+        <div>
+            <b>Ponto de Referência :</b>
+            <%= ocorrencia.pontoReferencia %>
+        </div>
+        <div>
+            <b>Policial :</b>
+            <%= ocorrencia.policial.nome %>
+        </div>
+        <div>
+            <b>Vítima :</b>
+            <%= ocorrencia.vitima.nome %>
+        </div>
+       
+        <% } else {  %>
+            
+            <div>Ocorrência não encontrada</div>
+
+            <%}%>
+    <div>
+        <div>
+            <br>
+            <a href="/ocorrencias">
+            <button  class="btn btn-secondary"><i class="bi bi-arrow-return-left">
+             </i>Voltar</button>
+
+            </a>
+        </div>
+    </div>
+</div>
+    <%- include('../partials/rodape') %>
+</body>
+</html>

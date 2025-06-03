@@ -1,0 +1,12 @@
+const express = require("express");
+const routes = express.Router();
+const vitimaController = require("../controllers/vitimaController");
+const auth = require("../middlewares/usuarioAuth");
+routes.get('/vitimas/relatorio',auth, vitimaController.listar);
+routes.get('/vitimas/cadastrar',auth,vitimaController.cadastrar);
+routes.post('/vitimas',auth, vitimaController.salvarVitima);
+routes.get('/vitimas/:id',auth,vitimaController.detalhar);
+routes.get('/vitimas/editar/:id',auth, vitimaController.editar);
+routes.post('/vitimas/atualizar/:id',auth, vitimaController.atualizar);
+routes.post('/vitimas/:id/remover',auth,vitimaController.remover);
+module.exports=routes;

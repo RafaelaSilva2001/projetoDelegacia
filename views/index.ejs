@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina Inicial</title>
+    <%- include('partials/cabecalho') %>
+    <%- include('partials/menu') %>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dark-theme">
+   
+    <div class="image-gallery" style="display: flex; justify-content: center; gap: 20px; padding: 20px;">
+        <img class="img-fluid" src="/img/police02.png" alt="Policial" style="max-height: 150px;">
+         <img class="img-fluid" src="/img/police01.png" alt="Policial" style="max-height: 150px;">
+        <img class="img-fluid" src="/img/bepi-comando.png" alt="Bepi Comando" style="max-height: 150px;">
+          <img class="img-fluid" src="/img/policial.png" alt="Policial" style="max-height: 150px;">
+           <img class="img-fluid" src="/img/pirata.png" alt="Policial" style="max-height: 150px;">
+           
+          
+       
+    </div>
+
+    <div class="homepage-actions" style="text-align: center; margin: 30px 0;">
+        <p style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">BEPI - BATALHÃO ESPECIALIZADO EM POLICIAMENTO DO INTERIOR</p>
+        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 60px;">
+        <br>
+        <button onclick="location.href='/vitimas/cadastrar'" style="padding: 12px 24px; font-size: 18px; cursor: pointer;" class="btn btn-dark"><i class="bi bi-person-plus" style="margin-right: 8px;"></i>Cadastrar Vítima</button>
+        <button onclick="location.href='/ocorrencias/cadastrar'" style="padding: 12px 24px; font-size: 18px; cursor: pointer;" class="btn btn-dark"><i class="bi bi-exclamation-triangle" style="margin-right: 8px;"></i>Cadastrar Ocorrência</button>
+        <button onclick="location.href='/policiais/cadastrar'" style="padding: 12px 24px; font-size: 18px; cursor: pointer;" class="btn btn-dark"><i class="bi bi-shield-lock" style="margin-right: 8px;"></i>Cadastrar Policial</button>
+        <br>
+        </div>
+
+         
+       
+    </div>
+
+    <div>
+        <footer>
+       
+        </footer>
+    </div>
+    
+   
+
+        <%- include('partials/rodape') %>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<html data-bs-theme="dark"></html>   
+<head>
+    <meta charset="UTF-8" />
+    <title>Editar Ocorrência</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Editar Ocorrência</h1>
+        <form action="/ocorrencias/atualizar/<%= ocorrencia._id %>" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="tipoCrime" class="form-label">Tipo de Crime:</label>
+                <input type="text" id="tipoCrime" name="tipoCrime" value="<%= ocorrencia.tipoCrime %>" class="form-control" required />
+                <div class="invalid-feedback">
+                    Por favor, insira o tipo de crime.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="dataHora" class="form-label">Data e Hora:</label>
+                <input type="datetime-local" id="dataHora" name="dataHora" value="<%= new Date(ocorrencia.dataHora).toISOString().slice(0,16) %>" class="form-control" required />
+                <div class="invalid-feedback">
+                    Por favor, insira a data e hora.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="localOcorrencia" class="form-label">Local da Ocorrência:</label>
+                <input type="text" id="localOcorrencia" name="localOcorrencia" value="<%= ocorrencia.localOcorrencia %>" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="pontoReferencia" class="form-label">Ponto de Referência:</label>
+                <input type="text" id="pontoReferencia" name="pontoReferencia" value="<%= ocorrencia.pontoReferencia %>" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="idPolicial" class="form-label">Policial:</label>
+                <select id="idPolicial" name="idPolicial" class="form-select" required>
+                    <option value="">Selecione um policial</option>
+                    <% policiais.forEach(function(policial) { %>
+                        <option value="<%= policial._id %>" <%= (ocorrencia.policial && ocorrencia.policial.toString() === policial._id.toString()) ? 'selected' : '' %>><%= policial.nome %></option>
+                    <% }); %>
+                </select>
+                <div class="invalid-feedback">
+                    Por favor, selecione um policial.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="idVitima" class="form-label">Vítima:</label>
+                <select id="idVitima" name="idVitima" class="form-select" required>
+                    <option value="">Selecione uma vítima</option>
+                    <% vitimas.forEach(function(vitima) { %>
+                        <option value="<%= vitima._id %>" <%= (ocorrencia.vitima && ocorrencia.vitima.toString() === vitima._id.toString()) ? 'selected' : '' %>><%= vitima.nome %></option>
+                    <% }); %>
+                </select>
+                <div class="invalid-feedback">
+                    Por favor, selecione uma vítima.
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <a href="/ocorrencias/relatorio" class="btn btn-secondary ms-2">Cancelar</a>
+        </form>
+    </div>
+
+    <script>
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</body>
+</html>

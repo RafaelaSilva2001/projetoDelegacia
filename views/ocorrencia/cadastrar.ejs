@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<html data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Ocorrência</title>
+    <%- include('../partials/cabecalho') %>
+    <%- include('../partials/menu') %>
+</head>
+
+<body>
+    <div class='container'> 
+    <form action="/ocorrencias" method="post">
+        <br>
+        <div>
+            <label for="tipoCrime" class="form-label">Tipo de Crime:</label>
+             <input type="text" class="form-control" id="tipoCrime" name ="tipoCrime" required>
+        </div>
+        <br>
+        <div>
+            <label for="dataHora" class="form-label">Data e Hora:</label>
+            <input type="datetime-local" class="form-control" id="dataHora" name ="dataHora" required>
+        </div>
+        <br>
+        <div>
+            <label for="localOcorrencia" class="form-label">Local da Ocorrência:</label>
+            <input type="text" class="form-control" id="localOcorrencia" name ="localOcorrencia" required>
+        </div>
+        <br>
+        <div>
+            <label for="pontoReferencia" class="form-label">Ponto de Referência:</label>
+            <input type="text" class="form-control" id="pontoReferencia" name ="pontoReferencia" required>
+        </div>
+        <br>
+        <div>
+            <label for="policial" class="form-label">Policial Responsável :</label>
+            <select name="idPolicial" id="policial">
+                <% policiais.forEach(function(policial) { %>
+                    <option value="<%= policial._id %>"><%= policial.nome %></option>
+                <% }); %>
+            </select>
+        </div>
+        <br />
+        <div>
+            <label for="vitima" class="form-label">Vítima:</label>
+            <select name="idVitima" id="vitima">
+                <% vitimas.forEach(function(vitima) { %>
+                    <option value="<%= vitima._id %>"><%= vitima.nome %></option>
+                <% }); %>
+            </select>
+        </div>
+        <br>
+        <br>
+
+         <div>
+          
+        
+        <%- include('../partials/rodape') %>
+ 
+    </div>
+        <div>
+            <button type="submit" class="btn btn-success"><i class="bi bi-bookmark-check"></i> Salvar </button>
+        </div>
+        </form>
+</body>
+</html>

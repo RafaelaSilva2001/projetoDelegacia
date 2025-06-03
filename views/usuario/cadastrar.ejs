@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<html data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Usuário</title>
+    <%- include('../partials/cabecalho') %>
+    <%- include('../partials/menu') %>
+</head>
+
+<body>
+    <div class='container'> 
+
+    <form action="/usuarios" method="post">
+     
+        <div>
+            <label for="nome" class="form-label">Nome:</label>
+             <input type="text" class="form-control"  required id="nome" name ="nome" >
+        </div>
+
+        <div>
+            <label for="telefone" class="form-label">Telefone:</label>
+            <input type="text" class="form-control" id="telefone" name ="telefone">
+        </div>
+        <div>
+            <label for="email" class="form-label">Email:</label>
+            <input type="text" class="form-control" id="email" name ="email">
+        </div>
+        <div>
+            <label for="senha" class="form-label">Senha:</label>
+            <input type="password" class="form-control" id="senha" name ="senha">
+        </div>
+        <br>
+        <div>
+            <button type="submit" class="btn btn-success"><i class="bi bi-bookmark-check"></i> Salvar </button>
+        </div>
+        </form>
+        <%- include('../partials/rodape') %>
+
+ 
+    </div>
+    <script> 
+        function maskPhone(value) {
+            value = value.replace(/\D/g, "");
+            if (value.length > 10) {
+                value = value.replace(/(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+            } else {
+                value = value.replace(/(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            }
+            return value;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var phoneInput = document.getElementById("telefone");
+            if (phoneInput) {
+                phoneInput.addEventListener("input", function (e) {
+                    e.target.value = maskPhone(e.target.value);
+                });
+            }
+
+            var form = document.querySelector("form");
+            form.addEventListener("submit", function (event) {
+                var telefone = document.getElementById("telefone").value;
+                var telefoneRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+                if (!telefoneRegex.test(telefone)) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    alert("Telefone inválido. Use o formato (XX) XXXXX-XXXX.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

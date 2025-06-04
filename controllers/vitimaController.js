@@ -11,20 +11,23 @@ class VitimaController{
 
     }
     static async salvarVitima(req,res){
-        const { nome, cpf, dataNascimento, nomePai, nomeMae, endereco, telefone, grauEscolaridade } = req.body;
-        const filiacao = `Pai: ${nomePai}, Mãe: ${nomeMae}`;
-        const novaVitima = new Vitima({
-            nome,
-            cpf,
-            dataNascimento,
-            filiacao,
-            endereco,
-            telefone,
-            grauEscolaridade
-        });
-        await novaVitima.save();
-        res.redirect('/vitimas?s=1');
-
+        try {
+            const { nome, cpf, dataNascimento, nomePai, nomeMae, endereco, telefone, grauEscolaridade } = req.body;
+            const filiacao = `Pai: ${nomePai}, Mãe: ${nomeMae}`;
+            const novaVitima = new Vitima({
+                nome,
+                cpf,
+                dataNascimento,
+                filiacao,
+                endereco,
+                telefone,
+                grauEscolaridade
+            });
+            await novaVitima.save();
+            res.redirect('/vitimas/relatorio?s=1');
+        } catch (error) {
+            res.status(500).send('Erro ao salvar vítima');
+        }
     }
     static async detalhar(req,res){
         const id = req.params.id;

@@ -68,10 +68,6 @@ class OcorrenciaController{
     static async remover (req,res){
         const id = req.params.id;
         try {
-            const ocorrencia = await Ocorrencia.findById(id);
-            if (ocorrencia && ocorrencia.vitima) {
-                await Vitima.findByIdAndDelete(ocorrencia.vitima);
-            }
             await Ocorrencia.findByIdAndDelete(id);
             res.redirect('/ocorrencias/relatorio?s=2');
         } catch (error) {

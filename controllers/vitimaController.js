@@ -1,4 +1,5 @@
 const Vitima = require("../models/vitima");
+const Ocorrencia = require("../models/ocorrencia");
 
 class VitimaController{
     static async listar (req,res){
@@ -68,6 +69,7 @@ class VitimaController{
     static async remover(req,res){
         const id = req.params.id;
         try {
+            await Ocorrencia.deleteOne({ vitima: id });
             await Vitima.findByIdAndDelete(id);
             res.redirect('/vitimas/relatorio?s=2'); 
         } catch (error) {

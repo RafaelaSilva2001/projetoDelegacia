@@ -9,24 +9,23 @@ class VitimaController{
     }
     static async cadastrar(req,res){
         res.render('vitima/cadastrar');
-
     }
     static async salvarVitima(req,res){
-        try {
-            const { nome, cpf, dataNascimento, nomePai, nomeMae, endereco, telefone, grauEscolaridade } = req.body;
-            const filiacao = `Pai: ${nomePai}, Mãe: ${nomeMae}`;
-            const novaVitima = new Vitima({
-                nome,
-                cpf,
-                dataNascimento,
-                filiacao,
-                endereco,
-                telefone,
-                grauEscolaridade
-            });
-            await novaVitima.save();
+        const { nome, cpf, dataNascimento, nomePai, nomeMae, endereco, telefone, grauEscolaridade } = req.body;
+        const filiacao = `Pai: ${nomePai}, Mãe: ${nomeMae}`;
+        const novaVitima = new Vitima({
+            nome,
+            cpf,
+            dataNascimento,
+            filiacao,
+            endereco,
+            telefone,
+            grauEscolaridade
+        });
+        const resultado = await novaVitima.save();
+        if (resultado) {
             res.redirect('/vitimas/relatorio?s=1');
-        } catch (error) {
+        } else {
             res.status(500).send('Erro ao salvar vítima');
         }
     }
@@ -37,45 +36,41 @@ class VitimaController{
     }
     static async editar(req,res){
         const id = req.params.id;
-        try {
-            const vitima = await Vitima.findById(id);
-            if (!vitima) {
-                return res.status(404).send('Vítima não encontrada');
-            }
+        const vitima = await Vitima.findById(id);
+        if (vitima) {
             res.render('vitima/editar', { vitima });
-        } catch (error) {
-            res.status(500).send('Erro ao buscar vítima para edição');
+        } else {
+            res.status(404).send('Vítima não encontrada');
         }
     }
     static async atualizar(req,res){
         const id = req.params.id;
         const { nome, cpf, dataNascimento, nomePai, nomeMae, endereco, telefone, grauEscolaridade } = req.body;
         const filiacao = `Pai: ${nomePai}, Mãe: ${nomeMae}`;
-        try {
-            await Vitima.findByIdAndUpdate(id, {
-                nome,
-                cpf,
-                dataNascimento,
-                filiacao,
-                endereco,
-                telefone,
-                grauEscolaridade
-            });
+        const resultado = await Vitima.findByIdAndUpdate(id, {
+            nome,
+            cpf,
+            dataNascimento,
+            filiacao,
+            endereco,
+            telefone,
+            grauEscolaridade
+        });
+        if (resultado) {
             res.redirect('/vitimas/relatorio');
-        } catch (error) {
+        } else {
             res.status(500).send('Erro ao atualizar vítima');
         }
     }
     static async remover(req,res){
         const id = req.params.id;
-        try {
-            await Ocorrencia.deleteOne({ vitima: id });
-            await Vitima.findByIdAndDelete(id);
-            res.redirect('/vitimas/relatorio?s=2'); 
-        } catch (error) {
-            res.status(500).send('Erro ao deletar Vitima');
+        const resultadoOcorrencia = await Ocorrencia.deleteOne({ vitima: id });
+        const resultadoVitima = await Vitima.findByIdAndDelete(id);
+        if (resultadoOcorrencia && resultadoVitima) {
+            res.redirect('/vitimas/relatorio?s=2');
+        } else {
+            res.status(500).send('Erro ao deletar Vítima');
         }
-
     }
 }
 module.exports = VitimaController;

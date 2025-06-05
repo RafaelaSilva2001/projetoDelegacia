@@ -3,82 +3,75 @@ const bcryptjs = require("bcryptjs");
 class UsuarioController {
 
     static  async listar(req,res){
-    const status = req.query.s;
-    const usuarios  = await Usuario.find();
-    res.render('usuario/relatorio', { status, usuarios });
-    
+        const status = req.query.s;
+        const usuarios  = await Usuario.find();
+        res.render('usuario/relatorio', { status, usuarios });
     }
 
     static async cadastrar(req,res){
-    res.render('usuario/cadastrar');
+        res.render('usuario/cadastrar');
     }
 
     static async detalhar(req,res)
     {
         const id = req.params.id;
-        try {
-            const usuario = await Usuario.findById(id);
+        const usuario = await Usuario.findById(id);
+        if (usuario) {
             res.render('usuario/detalhar', { usuario });
-        } catch (error) {
+        } else {
             res.status(404).send('Usuario não encontrado');
         }
-    
     }
     static async salvarPost (req,res){
-            const { nome, telefone, email, senha} = req.body;
-            const salt = bcryptjs.genSaltSync();
-            const hash = bcryptjs.hashSync(senha, salt);
-            const novoUsuario = new Usuario({
-                nome,
-                telefone,
-                email,
-                senha: hash
-            });
-            try {
-                await novoUsuario.save();
-                res.redirect('/usuarios/relatorio?s=1');
-            } catch (error) {
-                let errorMessage = 'Erro ao cadastrar usuario.';
-                res.status(400).render('usuario/cadastrar', { errorMessage });
-            }
+        const { nome, telefone, email, senha} = req.body;
+        const salt = bcryptjs.genSaltSync();
+        const hash = bcryptjs.hashSync(senha, salt);
+        const novoUsuario = new Usuario({
+            nome,
+            telefone,
+            email,
+            senha: hash
+        });
+        const resultado = await novoUsuario.save();
+        if (resultado) {
+            res.redirect('/usuarios/relatorio?s=1');
+        } else {
+            let errorMessage = 'Erro ao cadastrar usuario.';
+            res.status(400).render('usuario/cadastrar', { errorMessage });
         }
-        static async remover (req,res){
-            
-                const id = req.params.id;
-                try {
-                    await Usuario.findByIdAndDelete(id);
-                    res.redirect('/usuarios/relatorio?s=2');
-                } catch (error) {
-                    res.status(500).send('Erro ao deletar usuario');
-                }
-            
+    }
+    static async remover (req,res){
+        const id = req.params.id;
+        const resultado = await Usuario.findByIdAndDelete(id);
+        if (resultado) {
+            res.redirect('/usuarios/relatorio?s=2');
+        } else {
+            res.status(500).send('Erro ao deletar usuario');
         }
-    
+    }
+
     static async editar(req,res){
         const id = req.params.id;
-        try {
-            const usuario = await Usuario.findById(id);
-            if (!usuario) {
-                return res.status(404).send('Usuário não encontrado');
-            }
+        const usuario = await Usuario.findById(id);
+        if (usuario) {
             res.render('usuario/editar', { usuario });
-        } catch (error) {
-            res.status(500).send('Erro ao buscar usuário para edição');
+        } else {
+            res.status(404).send('Usuário não encontrado');
         }
     }
 
     static async atualizar(req,res){
         const id = req.params.id;
         const { nome, telefone, email, senha } = req.body;
-        try {
-            await Usuario.findByIdAndUpdate(id, {
-                nome,
-                telefone,
-                email,
-                senha
-            });
+        const resultado = await Usuario.findByIdAndUpdate(id, {
+            nome,
+            telefone,
+            email,
+            senha
+        });
+        if (resultado) {
             res.redirect('/usuarios/relatorio');
-        } catch (error) {
+        } else {
             res.status(500).send('Erro ao atualizar usuário');
         }
     }
@@ -90,33 +83,25 @@ class UsuarioController {
     static async login(req, res) {
         const { email, senha } = req.body;
         console.log('Login attempt:', email, senha);
-        try {
-            const usuario = await Usuario.findOne({ email });
-            console.log('Usuario encontrado:', usuario);
-            if (usuario) {
-                
-                if(bcryptjs.compareSync(senha, usuario.senha)){
-                    req.session.usuarioId = usuario._id;
-                    console.log('Login bem-sucedido, sessão criada');
-                    res.redirect('/');
-                } else {
-                    console.log('Senha correta');
-                    return res.status(401).render('usuario/login', { errorMessage: ' senha inválida' });
-                }
+        const usuario = await Usuario.findOne({ email });
+        console.log('Usuario encontrado:', usuario);
+        if (usuario) {
+            if(bcryptjs.compareSync(senha, usuario.senha)){
+                req.session.usuarioId = usuario._id;
+                console.log('Login bem-sucedido, sessão criada');
+                res.redirect('/');
             } else {
-                console.log('E-mail incorreto');
-                return res.status(401).render('usuario/login', { errorMessage: 'Email inválido' });
+                console.log('Senha correta');
+                return res.status(401).render('usuario/login', { errorMessage: ' senha inválida' });
             }
-        
-            
-        } catch (error) {
-            console.error('Erro no login:', error);
-            res.status(500).send('Erro no servidor');
+        } else {
+            console.log('E-mail incorreto');
+            return res.status(401).render('usuario/login', { errorMessage: 'Email inválido' });
         }
     }
     static logout(req,res){
         req.session.usuarioId = null;
-        res.redirect('/');''
+        res.redirect('/');
     }
 }
 module.exports = UsuarioController;
